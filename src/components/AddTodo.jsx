@@ -1,15 +1,27 @@
-import {
-  IconButton,
-  InputAdornment,
-  TextField,
-  Box,
-  Typography,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import { TextField, Box, Typography, Button } from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import { MenuItem } from "@mui/material";
+const categories = [
+  "Работа:",
+  "Быт:",
+  "Хобби:",
+  "Финансы",
+  "Здоровье",
+  "Личное",
+  "Здоровье",
+];
 
-const AddTodo = ({ todo, handleChange, handleAdd }) => {
+const AddTodo = ({
+  todo,
+  date,
+  handleChange,
+  handleAdd,
+  handleDateChange,
+  categori,
+  handleCategoriChange,
+}) => {
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column", rowGap: "10px" }}>
       <Typography
         display={"flex"}
         justifyContent={"center"}
@@ -21,25 +33,33 @@ const AddTodo = ({ todo, handleChange, handleAdd }) => {
       <TextField
         sx={{ width: "400px" }}
         name="todo"
-        onKeyDown={(event) => {
-          if (event.key === "Enter") {
-            handleAdd();
-          }
-        }}
         label="Задача"
         placeholder="Введите задачу"
         value={todo}
         onChange={handleChange}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={handleAdd}>
-                <AddIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
       />
+      <DateTimePicker
+        value={date}
+        onChange={handleDateChange}
+        disablePast={true}
+      />
+
+      <TextField
+        select
+        label="Категория"
+        value={categori}
+        onChange={handleCategoriChange}
+      >
+        {categories.map((item) => (
+          <MenuItem key={item} value={item}>
+            {item}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <Button variant="contained" onClick={handleAdd}>
+        Добавить задачу
+      </Button>
     </Box>
   );
 };
